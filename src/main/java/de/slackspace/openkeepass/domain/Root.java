@@ -8,7 +8,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Root {
+public class Root implements GroupContainer {
 
     @JacksonXmlProperty(localName = "Group")
     @JacksonXmlElementWrapper(useWrapping = false)

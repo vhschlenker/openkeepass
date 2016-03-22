@@ -15,9 +15,9 @@ import de.slackspace.openkeepass.util.ByteUtils;
  * This works because JAXB is representing bytes by default as Base64 in xml.
  *
  */
-public class UUIDXmlAdapter extends StdScalarSerializer<UUID> {
+public class UUIDSerializer extends StdScalarSerializer<UUID> {
 
-    public UUIDXmlAdapter() {
+    public UUIDSerializer() {
         super(UUID.class);
     }
 

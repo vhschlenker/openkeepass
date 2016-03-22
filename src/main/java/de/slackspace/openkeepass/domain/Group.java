@@ -8,11 +8,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.UUIDSerializer;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import de.slackspace.openkeepass.xml.UUIDDeserializer;
+import de.slackspace.openkeepass.xml.UUIDSerializer;
 
 /**
  * A Group represents a structure that consists of entries and subgroups.
@@ -21,7 +21,7 @@ import de.slackspace.openkeepass.xml.UUIDDeserializer;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Group implements KeePassFileElement {
+public class Group implements KeePassFileElement, GroupContainer {
 
     @JacksonXmlProperty(localName = "UUID")
     @JsonSerialize(using=UUIDSerializer.class)

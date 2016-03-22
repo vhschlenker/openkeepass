@@ -6,10 +6,10 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.UUIDSerializer;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import de.slackspace.openkeepass.xml.UUIDDeserializer;
+import de.slackspace.openkeepass.xml.UUIDSerializer;
 
 /**
  * Represents the metadata of the KeePass database like database name, custom
