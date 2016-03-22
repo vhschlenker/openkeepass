@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 /**
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 public class CustomIcons {
 
     @JacksonXmlProperty(localName = "Icon")
+    @JacksonXmlElementWrapper(useWrapping = false)
     private List<CustomIcon> customIconList = new ArrayList<CustomIcon>();
 
     CustomIcons() {
