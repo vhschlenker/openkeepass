@@ -179,7 +179,13 @@ public class Entry implements KeePassFileElement {
     private String getValueFromProperty(String name) {
         Property property = getPropertyByName(name);
         if (property != null) {
-            return property.getValue();
+            String value = property.getValue();
+
+            if(value == null) {
+                return "";
+            }
+
+            return value;
         }
 
         return null;

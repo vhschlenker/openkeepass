@@ -32,7 +32,11 @@ public class Property implements KeePassFileElement {
 
     @JsonIgnore
     public String getValue() {
-        return propertyValue.getValue();
+        if(propertyValue != null) {
+            return propertyValue.getValue();
+        }
+
+        return null;
     }
 
     @JsonIgnore
