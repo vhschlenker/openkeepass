@@ -22,7 +22,7 @@ import de.slackspace.openkeepass.xml.UUIDSerializer;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Group implements KeePassFileElement, GroupContainer {
+public class Group implements KeePassFileElement {
 
     @JacksonXmlProperty(localName = "UUID")
     @JsonSerialize(using=UUIDSerializer.class)
