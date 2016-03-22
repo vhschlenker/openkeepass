@@ -15,6 +15,7 @@ public class Root {
     private List<Group> groups = new ArrayList<Group>();
 
     Root() {
+        // intentionally left empty for serialization
     }
 
     public Root(RootBuilder rootBuilder) {
