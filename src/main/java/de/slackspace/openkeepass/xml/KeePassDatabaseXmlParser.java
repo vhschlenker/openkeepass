@@ -11,24 +11,25 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import de.slackspace.openkeepass.domain.KeePassFile;
+import de.slackspace.openkeepass.exception.KeePassDatabaseUnreadable;
+import de.slackspace.openkeepass.exception.KeePassDatabaseUnwriteable;
 
 public class KeePassDatabaseXmlParser {
+
+    private static final String COULD_NOT_DESERIALIZE = "Could not deserialize KeePassFile from XML";
+    private static final String COULD_NOT_SERIALIZE = "Could not serialize KeePassFile to XML";
 
     public KeePassFile fromXml(InputStream inputStream) {
         ObjectMapper xmlMapper = new XmlMapper();
         try {
             return xmlMapper.readValue(inputStream, KeePassFile.class);
         } catch (JsonParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new KeePassDatabaseUnreadable(COULD_NOT_DESERIALIZE, e);
         } catch (JsonMappingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new KeePassDatabaseUnreadable(COULD_NOT_DESERIALIZE, e);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new KeePassDatabaseUnreadable(COULD_NOT_DESERIALIZE, e);
         }
-        return null;
     }
 
     public ByteArrayOutputStream toXml(KeePassFile keePassFile) {
@@ -37,14 +38,11 @@ public class KeePassDatabaseXmlParser {
         try {
             xmlMapper.writeValue(outputStream, keePassFile);
         } catch (JsonGenerationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new KeePassDatabaseUnwriteable(COULD_NOT_SERIALIZE, e);
         } catch (JsonMappingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new KeePassDatabaseUnwriteable(COULD_NOT_SERIALIZE, e);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new KeePassDatabaseUnwriteable(COULD_NOT_SERIALIZE, e);
         }
 
         return outputStream;
