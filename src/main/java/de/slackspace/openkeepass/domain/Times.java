@@ -3,7 +3,10 @@ package de.slackspace.openkeepass.domain;
 import java.util.Calendar;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import de.slackspace.openkeepass.xml.BooleanSerializer;
 
 /**
  * Represents statistical information of an {@link Entry}.
@@ -25,6 +28,7 @@ public class Times {
     private Calendar expiryTime;
 
     @JacksonXmlProperty(localName = "Expires")
+    @JsonSerialize(using=BooleanSerializer.class)
     private Boolean expires;
 
     @JacksonXmlProperty(localName = "UsageCount")

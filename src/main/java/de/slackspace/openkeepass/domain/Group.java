@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import de.slackspace.openkeepass.xml.BooleanSerializer;
 import de.slackspace.openkeepass.xml.UUIDDeserializer;
 import de.slackspace.openkeepass.xml.UUIDSerializer;
 
@@ -45,6 +46,7 @@ public class Group implements KeePassFileElement, GroupContainer {
     private Times times;
 
     @JacksonXmlProperty(localName = "IsExpanded")
+    @JsonSerialize(using=BooleanSerializer.class)
     private Boolean isExpanded;
 
     @JacksonXmlProperty(localName = "Entry")

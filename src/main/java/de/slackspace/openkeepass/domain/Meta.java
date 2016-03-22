@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import de.slackspace.openkeepass.xml.BooleanSerializer;
 import de.slackspace.openkeepass.xml.UUIDDeserializer;
 import de.slackspace.openkeepass.xml.UUIDSerializer;
 
@@ -46,6 +47,7 @@ public class Meta {
     private Calendar recycleBinChanged;
 
     @JacksonXmlProperty(localName = "RecycleBinEnabled")
+    @JsonSerialize(using=BooleanSerializer.class)
     private Boolean recycleBinEnabled;
 
     @JacksonXmlProperty(localName = "HistoryMaxItems")

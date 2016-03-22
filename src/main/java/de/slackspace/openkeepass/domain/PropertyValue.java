@@ -2,8 +2,11 @@ package de.slackspace.openkeepass.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
+
+import de.slackspace.openkeepass.xml.BooleanSerializer;
 
 /**
  * Represents the value part of a key value {@link Property}.
@@ -18,6 +21,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 public class PropertyValue {
 
     @JacksonXmlProperty(localName = "Protected", isAttribute = true)
+    @JsonSerialize(using=BooleanSerializer.class)
     private Boolean isProtected;
 
     @JacksonXmlText
