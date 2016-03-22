@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.UUIDSerializer;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
-import de.slackspace.openkeepass.xml.BooleanXmlAdapter;
-import de.slackspace.openkeepass.xml.UUIDXmlAdapter;
+import de.slackspace.openkeepass.xml.UUIDDeserializer;
 
 /**
  * A Group represents a structure that consists of entries and subgroups.
@@ -19,37 +20,39 @@ import de.slackspace.openkeepass.xml.UUIDXmlAdapter;
  * @see Entry
  *
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Group implements KeePassFileElement {
 
-    @XmlElement(name = "UUID")
-    @XmlJavaTypeAdapter(UUIDXmlAdapter.class)
+    @JacksonXmlProperty(localName = "UUID")
+    @JsonSerialize(using=UUIDSerializer.class)
+    @JsonDeserialize(using=UUIDDeserializer.class)
     private UUID uuid;
 
-    @XmlElement(name = "Name")
+    @JacksonXmlProperty(localName = "Name")
     private String name;
 
-    @XmlElement(name = "IconID")
+    @JacksonXmlProperty(localName = "IconID")
     private int iconId = 49;
 
     private transient byte[] iconData;
 
-    @XmlElement(name = "CustomIconUUID")
-    @XmlJavaTypeAdapter(UUIDXmlAdapter.class)
+    @JacksonXmlProperty(localName = "CustomIconUUID")
+    @JsonSerialize(using=UUIDSerializer.class)
+    @JsonDeserialize(using=UUIDDeserializer.class)
     private UUID customIconUUID;
 
-    @XmlElement(name = "Times")
+    @JacksonXmlProperty(localName = "Times")
     private Times times;
 
-    @XmlElement(name = "IsExpanded")
-    @XmlJavaTypeAdapter(BooleanXmlAdapter.class)
+    @JacksonXmlProperty(localName = "IsExpanded")
     private Boolean isExpanded;
 
-    @XmlElement(name = "Entry")
+    @JacksonXmlProperty(localName = "Entry")
+    @JacksonXmlElementWrapper(useWrapping = false)
     private List<Entry> entries = new ArrayList<Entry>();
 
-    @XmlElement(name = "Group")
+    @JacksonXmlProperty(localName = "Group")
+    @JacksonXmlElementWrapper(useWrapping = false)
     private List<Group> groups = new ArrayList<Group>();
 
     Group() {
@@ -140,6 +143,7 @@ public class Group implements KeePassFileElement {
      *
      * @return the UUID of the custom icon or null
      */
+    @JsonIgnore
     public UUID getCustomIconUuid() {
         return customIconUUID;
     }
@@ -150,6 +154,7 @@ public class Group implements KeePassFileElement {
      *
      * @return the raw icon data if available or null otherwise
      */
+    @JsonIgnore
     public byte[] getIconData() {
         return iconData;
     }
@@ -164,6 +169,7 @@ public class Group implements KeePassFileElement {
      * @return true if the group was expanded the last time it was opened in
      *         keepass
      */
+    @JsonIgnore
     public boolean isExpanded() {
         if (isExpanded == null) {
             return false;

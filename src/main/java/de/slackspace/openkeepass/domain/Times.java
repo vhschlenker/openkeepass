@@ -2,42 +2,35 @@ package de.slackspace.openkeepass.domain;
 
 import java.util.Calendar;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import de.slackspace.openkeepass.xml.BooleanXmlAdapter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 /**
  * Represents statistical information of an {@link Entry}.
  *
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Times {
 
-    @XmlElement(name = "LastModificationTime")
+    @JacksonXmlProperty(localName = "LastModificationTime")
     private Calendar lastModificationTime;
 
-    @XmlElement(name = "CreationTime")
+    @JacksonXmlProperty(localName = "CreationTime")
     private Calendar creationTime;
 
-    @XmlElement(name = "LastAccessTime")
+    @JacksonXmlProperty(localName = "LastAccessTime")
     private Calendar lastAccessTime;
 
-    @XmlElement(name = "ExpiryTime")
+    @JacksonXmlProperty(localName = "ExpiryTime")
     private Calendar expiryTime;
 
-    @XmlElement(name = "Expires")
-    @XmlJavaTypeAdapter(BooleanXmlAdapter.class)
+    @JacksonXmlProperty(localName = "Expires")
     private Boolean expires;
 
-    @XmlElement(name = "UsageCount")
+    @JacksonXmlProperty(localName = "UsageCount")
     private int usageCount;
 
-    @XmlElement(name = "LocationChanged")
+    @JacksonXmlProperty(localName = "LocationChanged")
     private Calendar locationChanged;
 
     Times() {

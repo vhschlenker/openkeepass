@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import de.slackspace.openkeepass.filter.Filter;
 import de.slackspace.openkeepass.filter.ListFilter;
@@ -16,15 +15,14 @@ import de.slackspace.openkeepass.filter.ListFilter;
  * A KeePassFile represents the structure of a KeePass database. This is the
  * central entry point to read data from the KeePass database.
  */
-@XmlRootElement(name = "KeePassFile")
-@XmlAccessorType(XmlAccessType.FIELD)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class KeePassFile implements KeePassFileElement {
 
-    @XmlElement(name = "Meta")
+    @JacksonXmlProperty(localName = "Meta")
     private Meta meta;
 
-    @XmlElement(name = "Root")
-    private Group root;
+    @JacksonXmlProperty(localName = "Root")
+    private Root root;
 
     KeePassFile() {
     }
@@ -48,9 +46,9 @@ public class KeePassFile implements KeePassFileElement {
      * Retrieves the root group of a KeePass database.
      *
      * @return the root group
-     * @see Group
+     * @see Root
      */
-    public Group getRoot() {
+    public Root getRoot() {
         return root;
     }
 
@@ -60,6 +58,7 @@ public class KeePassFile implements KeePassFileElement {
      * @return a list of root level groups
      * @see Group
      */
+    @JsonIgnore
     public List<Group> getTopGroups() {
         if (root != null && root.getGroups() != null && root.getGroups().size() == 1) {
             return root.getGroups().get(0).getGroups();
@@ -73,6 +72,7 @@ public class KeePassFile implements KeePassFileElement {
      * @return a list of root level entries
      * @see Entry
      */
+    @JsonIgnore
     public List<Entry> getTopEntries() {
         if (root != null && root.getGroups() != null && root.getGroups().size() == 1) {
             return root.getGroups().get(0).getEntries();
@@ -120,7 +120,7 @@ public class KeePassFile implements KeePassFileElement {
         List<Entry> allEntries = new ArrayList<Entry>();
 
         if (root != null) {
-            getEntries(root, allEntries);
+            //            getEntries(root, allEntries);
         }
 
         return ListFilter.filter(allEntries, new Filter<Entry>() {
@@ -162,7 +162,7 @@ public class KeePassFile implements KeePassFileElement {
         List<Group> allGroups = new ArrayList<Group>();
 
         if (root != null) {
-            getGroups(root, allGroups);
+            //            getGroups(root, allGroups);
         }
 
         return ListFilter.filter(allGroups, new Filter<Group>() {
@@ -191,11 +191,12 @@ public class KeePassFile implements KeePassFileElement {
      * @return a list of all entries
      * @see Entry
      */
+    @JsonIgnore
     public List<Entry> getEntries() {
         List<Entry> allEntries = new ArrayList<Entry>();
 
         if (root != null) {
-            getEntries(root, allEntries);
+            //            getEntries(root, allEntries);
         }
 
         return allEntries;
@@ -207,11 +208,12 @@ public class KeePassFile implements KeePassFileElement {
      * @return a list of all groups
      * @see Group
      */
+    @JsonIgnore
     public List<Group> getGroups() {
         List<Group> allGroups = new ArrayList<Group>();
 
         if (root != null) {
-            getGroups(root, allGroups);
+            //            getGroups(root, allGroups);
         }
 
         return allGroups;

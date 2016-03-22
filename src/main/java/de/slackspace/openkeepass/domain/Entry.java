@@ -4,21 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.UUIDSerializer;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
-import de.slackspace.openkeepass.xml.UUIDXmlAdapter;
+import de.slackspace.openkeepass.xml.UUIDDeserializer;
 
 /**
  * Represents an entry in the KeePass database. It typically consists of a
  * title, username and a password.
  *
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Entry implements KeePassFileElement {
 
     private static final String USER_NAME = "UserName";
@@ -36,23 +37,26 @@ public class Entry implements KeePassFileElement {
         PROPERTY_KEYS.add(TITLE);
     }
 
-    @XmlElement(name = "UUID")
-    @XmlJavaTypeAdapter(UUIDXmlAdapter.class)
+    @JacksonXmlProperty(localName = "UUID")
+    @JsonSerialize(using=UUIDSerializer.class)
+    @JsonDeserialize(using=UUIDDeserializer.class)
     private UUID uuid;
 
-    @XmlElement(name = "IconID")
+    @JacksonXmlProperty(localName = "IconID")
     private int iconId = 0;
 
     private transient byte[] iconData;
 
-    @XmlElement(name = "CustomIconUUID")
-    @XmlJavaTypeAdapter(UUIDXmlAdapter.class)
+    @JacksonXmlProperty(localName = "CustomIconUUID")
+    @JsonSerialize(using=UUIDSerializer.class)
+    @JsonDeserialize(using=UUIDDeserializer.class)
     private UUID customIconUUID;
 
-    @XmlElement(name = "String")
+    @JacksonXmlProperty(localName = "String")
+    @JacksonXmlElementWrapper(useWrapping = false)
     private List<Property> properties = new ArrayList<Property>();
 
-    @XmlElement(name = "History")
+    @JacksonXmlProperty(localName = "History")
     private History history;
 
     Entry() {
@@ -93,6 +97,7 @@ public class Entry implements KeePassFileElement {
      *
      * @return the uuid of the custom icon or null
      */
+    @JsonIgnore
     public UUID getCustomIconUuid() {
         return customIconUUID;
     }
@@ -103,6 +108,7 @@ public class Entry implements KeePassFileElement {
      *
      * @return the raw icon data if available or null otherwise
      */
+    @JsonIgnore
     public byte[] getIconData() {
         return iconData;
     }
@@ -111,6 +117,7 @@ public class Entry implements KeePassFileElement {
         return properties;
     }
 
+    @JsonIgnore
     public List<Property> getCustomProperties() {
         List<Property> customProperties = new ArrayList<Property>();
 
@@ -123,30 +130,37 @@ public class Entry implements KeePassFileElement {
         return customProperties;
     }
 
+    @JsonIgnore
     public String getTitle() {
         return getValueFromProperty(TITLE);
     }
 
+    @JsonIgnore
     public String getPassword() {
         return getValueFromProperty(PASSWORD);
     }
 
+    @JsonIgnore
     public String getUrl() {
         return getValueFromProperty(URL);
     }
 
+    @JsonIgnore
     public String getNotes() {
         return getValueFromProperty(NOTES);
     }
 
+    @JsonIgnore
     public String getUsername() {
         return getValueFromProperty(USER_NAME);
     }
 
+    @JsonIgnore
     public boolean isTitleProtected() {
         return getPropertyByName(TITLE).isProtected();
     }
 
+    @JsonIgnore
     public boolean isPasswordProtected() {
         return getPropertyByName(PASSWORD).isProtected();
     }

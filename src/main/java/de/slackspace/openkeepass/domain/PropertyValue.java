@@ -1,32 +1,26 @@
 package de.slackspace.openkeepass.domain;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import de.slackspace.openkeepass.xml.BooleanXmlAdapter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 
 /**
  * Represents the value part of a key value {@link Property}.
  * <p>
- * 
+ *
  * A value can be protected or not depending on the database setting. Protected
  * values will be additionally encrypted in the database. Typically values like
  * passwords are protected.
  *
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PropertyValue {
 
-    @XmlAttribute(name = "Protected")
-    @XmlJavaTypeAdapter(BooleanXmlAdapter.class)
+    @JacksonXmlProperty(localName = "Protected", isAttribute = true)
     private Boolean isProtected;
 
-    @XmlValue
+    @JacksonXmlText
     private String value;
 
     PropertyValue() {
@@ -41,6 +35,7 @@ public class PropertyValue {
         return value;
     }
 
+    @JsonIgnore
     public boolean isProtected() {
         if (isProtected == null) {
             return false;

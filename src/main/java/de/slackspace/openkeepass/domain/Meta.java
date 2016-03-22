@@ -3,60 +3,58 @@ package de.slackspace.openkeepass.domain;
 import java.util.Calendar;
 import java.util.UUID;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.UUIDSerializer;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
-import de.slackspace.openkeepass.xml.BooleanXmlAdapter;
-import de.slackspace.openkeepass.xml.UUIDXmlAdapter;
+import de.slackspace.openkeepass.xml.UUIDDeserializer;
 
 /**
  * Represents the metadata of the KeePass database like database name, custom
  * icons or how much history entries will be preserved.
  *
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Meta {
 
-    @XmlElement(name = "Generator")
+    @JacksonXmlProperty(localName = "Generator")
     private String generator;
 
-    @XmlElement(name = "DatabaseName")
+    @JacksonXmlProperty(localName = "DatabaseName")
     private String databaseName;
 
-    @XmlElement(name = "DatabaseDescription")
+    @JacksonXmlProperty(localName = "DatabaseDescription")
     private String databaseDescription;
 
-    @XmlElement(name = "DatabaseNameChanged")
+    @JacksonXmlProperty(localName = "DatabaseNameChanged")
     private Calendar databaseNameChanged;
 
-    @XmlElement(name = "DatabaseDescriptionChanged")
+    @JacksonXmlProperty(localName = "DatabaseDescriptionChanged")
     private Calendar databaseDescriptionChanged;
 
-    @XmlElement(name = "MaintenanceHistoryDays")
+    @JacksonXmlProperty(localName = "MaintenanceHistoryDays")
     private int maintenanceHistoryDays;
 
-    @XmlElement(name = "RecycleBinUUID")
-    @XmlJavaTypeAdapter(UUIDXmlAdapter.class)
+    @JacksonXmlProperty(localName = "RecycleBinUUID")
+    @JsonSerialize(using=UUIDSerializer.class)
+    @JsonDeserialize(using=UUIDDeserializer.class)
     private UUID recycleBinUuid;
 
-    @XmlElement(name = "RecycleBinChanged")
+    @JacksonXmlProperty(localName = "RecycleBinChanged")
     private Calendar recycleBinChanged;
 
-    @XmlElement(name = "RecycleBinEnabled")
-    @XmlJavaTypeAdapter(BooleanXmlAdapter.class)
+    @JacksonXmlProperty(localName = "RecycleBinEnabled")
     private Boolean recycleBinEnabled;
 
-    @XmlElement(name = "HistoryMaxItems")
+    @JacksonXmlProperty(localName = "HistoryMaxItems")
     private long historyMaxItems;
 
-    @XmlElement(name = "HistoryMaxSize")
+    @JacksonXmlProperty(localName = "HistoryMaxSize")
     private long historyMaxSize;
 
-    @XmlElement(name = "CustomIcons")
+    @JacksonXmlProperty(localName = "CustomIcons")
     private CustomIcons customIcons;
 
     Meta() {

@@ -3,27 +3,20 @@ package de.slackspace.openkeepass.domain;
 import java.util.Arrays;
 import java.util.UUID;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import de.slackspace.openkeepass.xml.UUIDXmlAdapter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 /**
  * Represents a custom icon in the KeePass database.
  *
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CustomIcon {
 
-    @XmlElement(name = "UUID")
-    @XmlJavaTypeAdapter(UUIDXmlAdapter.class)
+    @JacksonXmlProperty(localName = "UUID")
     private UUID uuid;
 
-    @XmlElement(name = "Data")
+    @JacksonXmlProperty(localName = "Data")
     private byte[] data;
 
     CustomIcon() {

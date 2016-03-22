@@ -1,8 +1,11 @@
 package de.slackspace.openkeepass.xml;
 
+import java.io.IOException;
 import java.util.UUID;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdScalarSerializer;
 
 import de.slackspace.openkeepass.util.ByteUtils;
 
@@ -12,28 +15,15 @@ import de.slackspace.openkeepass.util.ByteUtils;
  * This works because JAXB is representing bytes by default as Base64 in xml.
  *
  */
-public class UUIDXmlAdapter extends XmlAdapter<byte[], UUID> {
+public class UUIDXmlAdapter extends StdScalarSerializer<UUID> {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * javax.xml.bind.annotation.adapters.XmlAdapter#marshal(java.lang.Object)
-     */
-    @Override
-    public byte[] marshal(UUID value) throws Exception {
-        return ByteUtils.uuidToBytes(value);
+    public UUIDXmlAdapter() {
+        super(UUID.class);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * javax.xml.bind.annotation.adapters.XmlAdapter#unmarshal(java.lang.Object)
-     */
     @Override
-    public UUID unmarshal(byte[] value) throws Exception {
-        return ByteUtils.bytesToUUID(value);
+    public void serialize(UUID value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+        gen.writeBinary(ByteUtils.uuidToBytes(value));
     }
 
 }

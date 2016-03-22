@@ -14,8 +14,8 @@ import de.slackspace.openkeepass.domain.zipper.GroupZipper;
 public class KeePassFileBuilder {
 
     Meta meta;
-    Group root;
-    private GroupBuilder rootBuilder = new GroupBuilder();
+    Root root;
+    private RootBuilder rootBuilder = new RootBuilder();
     private GroupBuilder topGroupBuilder = new GroupBuilder();
     private KeePassFile keePassFile;
 
@@ -30,7 +30,7 @@ public class KeePassFileBuilder {
         this.keePassFile = keePassFile;
         this.meta = keePassFile.getMeta();
 
-        rootBuilder = new GroupBuilder(keePassFile.getRoot());
+        rootBuilder = new RootBuilder(keePassFile.getRoot());
     }
 
     /**

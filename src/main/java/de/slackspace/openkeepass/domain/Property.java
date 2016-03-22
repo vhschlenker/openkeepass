@@ -1,23 +1,21 @@
 package de.slackspace.openkeepass.domain;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 /**
  * Represents a key value pair of an {@link Entry}. All properties like username
  * or password of an Entry are represented with this class.
  *
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Property implements KeePassFileElement {
 
-    @XmlElement(name = "Key")
+    @JacksonXmlProperty(localName = "Key")
     private String key;
 
-    @XmlElement(name = "Value")
+    @JacksonXmlProperty(localName = "Value")
     private PropertyValue propertyValue;
 
     Property() {
@@ -32,10 +30,12 @@ public class Property implements KeePassFileElement {
         return key;
     }
 
+    @JsonIgnore
     public String getValue() {
         return propertyValue.getValue();
     }
 
+    @JsonIgnore
     public boolean isProtected() {
         return propertyValue.isProtected();
     }
