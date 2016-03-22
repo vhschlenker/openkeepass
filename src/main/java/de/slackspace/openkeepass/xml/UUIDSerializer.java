@@ -10,9 +10,7 @@ import com.fasterxml.jackson.databind.ser.std.StdScalarSerializer;
 import de.slackspace.openkeepass.util.ByteUtils;
 
 /**
- * This class is a JAXB adapter to transform UUIDs to/from xml using JAXB.
- * <p>
- * This works because JAXB is representing bytes by default as Base64 in xml.
+ * This class is a Jackson adapter to transform UUIDs to xml.
  *
  */
 public class UUIDSerializer extends StdScalarSerializer<UUID> {
@@ -21,6 +19,9 @@ public class UUIDSerializer extends StdScalarSerializer<UUID> {
         super(UUID.class);
     }
 
+    /* (non-Javadoc)
+     * @see com.fasterxml.jackson.databind.ser.std.StdSerializer#serialize(java.lang.Object, com.fasterxml.jackson.core.JsonGenerator, com.fasterxml.jackson.databind.SerializerProvider)
+     */
     @Override
     public void serialize(UUID value, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeBinary(ByteUtils.uuidToBytes(value));
