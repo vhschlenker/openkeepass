@@ -120,7 +120,7 @@ public class KeePassFile implements KeePassFileElement {
         List<Entry> allEntries = new ArrayList<Entry>();
 
         if (root != null) {
-            //            getEntries(root, allEntries);
+            getEntries(root, allEntries);
         }
 
         return ListFilter.filter(allEntries, new Filter<Entry>() {
@@ -162,7 +162,7 @@ public class KeePassFile implements KeePassFileElement {
         List<Group> allGroups = new ArrayList<Group>();
 
         if (root != null) {
-            //            getGroups(root, allGroups);
+            getGroups(root, allGroups);
         }
 
         return ListFilter.filter(allGroups, new Filter<Group>() {
@@ -196,7 +196,7 @@ public class KeePassFile implements KeePassFileElement {
         List<Entry> allEntries = new ArrayList<Entry>();
 
         if (root != null) {
-            //            getEntries(root, allEntries);
+            getEntries(root, allEntries);
         }
 
         return allEntries;
@@ -213,7 +213,7 @@ public class KeePassFile implements KeePassFileElement {
         List<Group> allGroups = new ArrayList<Group>();
 
         if (root != null) {
-            //            getGroups(root, allGroups);
+            getGroups(root, allGroups);
         }
 
         return allGroups;
@@ -240,6 +240,12 @@ public class KeePassFile implements KeePassFileElement {
         return null;
     }
 
+    private static void getEntries(Root root, List<Entry> entries) {
+        for (Group group : root.getGroups()) {
+            getEntries(group, entries);
+        }
+    }
+
     private static void getEntries(Group parentGroup, List<Entry> entries) {
         List<Group> groups = parentGroup.getGroups();
         entries.addAll(parentGroup.getEntries());
@@ -251,6 +257,13 @@ public class KeePassFile implements KeePassFileElement {
         }
 
         return;
+    }
+
+    private static void getGroups(Root root, List<Group> groups) {
+        for (Group group : root.getGroups()) {
+            groups.add(group);
+            getGroups(group, groups);
+        }
     }
 
     private static void getGroups(Group parentGroup, List<Group> groups) {
