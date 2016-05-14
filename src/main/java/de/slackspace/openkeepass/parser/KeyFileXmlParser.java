@@ -6,7 +6,7 @@ import java.io.UnsupportedEncodingException;
 import javax.xml.bind.DataBindingException;
 import javax.xml.bind.JAXB;
 
-import org.bouncycastle.util.encoders.Base64;
+import org.spongycastle.util.encoders.Base64;
 
 import de.slackspace.openkeepass.domain.KeyFile;
 import de.slackspace.openkeepass.domain.KeyFileBytes;

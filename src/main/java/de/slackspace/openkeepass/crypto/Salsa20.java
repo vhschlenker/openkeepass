@@ -8,9 +8,9 @@ import javax.crypto.ShortBufferException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.util.encoders.Base64;
-import org.bouncycastle.util.encoders.Hex;
+import org.spongycastle.jce.provider.BouncyCastleProvider;
+import org.spongycastle.util.encoders.Hex;
+import org.spongycastle.util.encoders.Base64;
 
 public class Salsa20 implements ProtectedStringCrypto {
 
@@ -22,7 +22,9 @@ public class Salsa20 implements ProtectedStringCrypto {
     private Cipher salsa20Engine;
 
     private Salsa20() {
-        Security.addProvider(new BouncyCastleProvider());
+        //Ensure that Spongy Castle is used in preference
+        // to any other security provider on the device
+        Security.insertProviderAt(new BouncyCastleProvider(), 1);
     }
 
     private void initialize(byte[] protectedStreamKey) {
